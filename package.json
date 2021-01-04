@@ -1,0 +1,29 @@
+{
+  "name": "tin-bot",
+  "version": "1.0.0",
+  "description": "A multi-function bot made by Forgi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "colors": "^1.4.0",
+    "common-tags": "^1.8.0",
+    "dblapi.js": "^2.4.1",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "mathjs": "^7.5.1",
+    "moment": "^2.29.1",
+    "npm": "^6.14.6",
+    "request": "^2.88.2",
+    "axios": "^0.21.0",
+    "lodash": ">=4.17.19"
+  },
+  "devDependencies": {
+  }
+}
