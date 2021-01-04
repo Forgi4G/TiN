@@ -7,7 +7,7 @@ databases
 .git
 .idea
 archives
-src/util/getBuildInfo.js
+# src/util/getBuildInfo.js
 src/commands/developer
 configuration.json
 
