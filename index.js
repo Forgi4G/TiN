@@ -35,5 +35,12 @@ function memoryUsagePrint() {
 memoryUsagePrint();
 setInterval(memoryUsagePrint, 1000 * 60 * 60 * 12, {});
 
+// CPU Usage checks every 12 hours
+function CPUUsagePrint() {
+    const CPUUsage = process.cpuUsage();
+    console.log(`CPU User Usage: ${CPUUsage.user} ------------- CPU System Usage: ${CPUUsage.system}`);
+}
+CPUUsagePrint();
+setInterval(CPUUsagePrint, 1000 * 60 * 60 * 12, {});
 
 client.login(process.env.TOKEN).catch(error => console.log(error));
