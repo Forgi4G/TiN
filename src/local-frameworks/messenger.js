@@ -22,8 +22,13 @@ function MessageErrorHandler(listener, error) {
 class messenger {
     constructor(options = {}) {
         this.options = options;
-        if (options.listener) { this.options.listener = options.listener }
-        if (options.client) { this.options.client = options.client }
+        if (options.listener) {
+            this.options.listener = options.listener
+        }
+        if (options.client) {
+            this.options.client = options.client
+        }
+        this.options.channel = options.channel ? options.channel : "";
     }
 
     MessageErrorHandlerConstr(error) {
@@ -56,6 +61,17 @@ class messenger {
         if (this.options.listener) {
             let listener = this.options.listener;
             listener.channel.send(input).catch(error => {
+                this.MessageErrorHandlerConstr(error);
+            }).then(m => {
+                if (m) { m.delete({ timeout: 5000 }) }
+            });
+        }
+    }
+
+    sendTempDefaultMessageChannelConstr(input) {
+        if (this.options.channel) {
+            let channel = this.options.channel;
+            channel.send(input).catch(error => {
                 this.MessageErrorHandlerConstr(error);
             }).then(m => {
                 if (m) { m.delete({ timeout: 5000 }) }
