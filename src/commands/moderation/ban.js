@@ -10,7 +10,7 @@ module.exports = {
     category: "moderation",
     aliases: ["banish", "bar"],
     description: "Bans a member based on request.",
-    usage: "[command] [userID / userMention] [reason]",
+    usage: "[command] [userID / userMention] (reason)",
     example: `ban @Username#0001 Breaking a rule`,
     run: async (client, message, args) => {
         const msgFrame = new messenger({ client: client, listener: message });
