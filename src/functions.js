@@ -13,7 +13,7 @@ module.exports = {
                     return member.displayName.toLowerCase().includes(toFind) ||
                         member.user.tag.toLowerCase().includes(toFind)
                 }).catch(error => {
-                    return null;
+                    return error;
                 });
             }
 
@@ -74,7 +74,7 @@ module.exports = {
     },
 
     getUserID(args) {
-        return args.match(/\d+/g).join('');
+        return String(args).match(/\d+/g).join('') ? String(args).match(/\d+/g).join('') : false;
     },
 
     sendMessagePermCheck: function(client, message) {
