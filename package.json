@@ -1,7 +1,7 @@
 {
   "name": "tin-bot",
-  "version": "1.0.0",
-  "description": "A multi-function bot made by Forgi",
+  "version": "1.7.7",
+  "description": "A multi-function bot built concisely and is direct.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
