@@ -47,7 +47,7 @@ module.exports = {
 
                 // Parses UserID and verifies if it is valid
                 let toBan = getUserID(args[0]);
-                if ((await client.users.fetch(toBan)).id.length === 18) {
+                if ((await client.users.fetch(toBan)).id.length === 17 || (await client.users.fetch(toBan)).id.length === 18) {
                     if (toBan === message.author.id) {
                         return msgFrame.sendTempDefaultReplyConstr("You cannot ban yourself.");
                     }
@@ -77,7 +77,7 @@ module.exports = {
                         // If the ban was approved
                         if (reaction === "✅") {
                             if (messageOne.deletable) { messageOne.delete(); }
-                            await message.guild.members.ban(await client.users.fetch(toBan), { reason: reason }).then(result => {
+                            await message.guild.members.ban(await client.users.fetch(toBan), { reason: reason }).then(() => {
                                 return msgFrame.sendTempMessageConstr(banEmbed, 10 * 1000);
                             }).catch(error => {
                                 if (error.code === 50013) {
@@ -113,7 +113,7 @@ module.exports = {
                                                 case 'yes':
                                                     if (messageOne.deletable) { messageOne.delete(); }
                                                     let userToBan = await client.users.fetch(toBan);
-                                                    (message.guild.members.ban(userToBan)).then(result => {
+                                                    (message.guild.members.ban(userToBan)).then(() => {
                                                         return msgFrame.sendTempMessageConstr(banEmbed, 10 * 1000);
                                                     }).catch(error => {
                                                         if (error.code === 50013) {
