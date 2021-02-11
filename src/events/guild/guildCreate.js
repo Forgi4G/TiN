@@ -14,9 +14,11 @@ module.exports = {
                 .addField("Other", `[Invite Me](https://discord.com/api/oauth2/authorize?client_id=483768001024491521&permissions=2147483639&scope=bot)`)
                 .setTimestamp();
             try {
-                guild.channels.cache.filter(channel => channel.type === 'text').find(channel => channel.name === "general").send(embed);
-            } catch (err) {
-                guild.channels.cache.filter(channel => channel.type === "text").random().send(embed);
+                guild.channels.cache.filter(channel => channel.type === 'text').find(channel => channel.name === "general").send(embed).catch(error => {
+                    if (error) guild.channels.cache.filter(channel => channel.type === "text").random().send(embed).catch(() => {});
+                });
+            } catch (e) {
+                guild.channels.cache.filter(channel => channel.type === "text").random().send(embed).catch(() => {});
             }
         });
 }
