@@ -19,11 +19,7 @@
     "dotenv": "^8.2.0",
     "mathjs": "^7.5.1",
     "moment": "^2.29.1",
-    "npm": "^6.14.6",
-    "request": "^2.88.2",
-    "axios": "^0.21.0",
-    "lodash": ">=4.17.19"
+    "npm": "^6.14.6"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }
