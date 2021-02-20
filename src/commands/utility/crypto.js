@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const request = require('request');
+const { getBody } = require('../../local-frameworks/request.js');
 
 const messenger = require('../../local-frameworks/messenger.js');
 
@@ -41,9 +41,9 @@ module.exports = {
         }
         if (crypto) {
             const cryptoURL = `https://min-api.cryptocompare.com/data/price?fsym=${crypto}&tsyms=` + currencyInput;
-            request.get(cryptoURL, (error, response, body) => {
+            getBody(cryptoURL, { protocol: "https" }).then(body => {
                 // Parsed BTC data for min-api
-                const cryptoData = JSON.parse(body);
+                const cryptoData = JSON.parse(String(body));
                 // Final verdict if it's really not found
                 if (cryptoData[currencyInput] === undefined || !cryptoData[currencyInput]) {
                     return msgFrame.sendTempDefaultMessageConstr("The currency provided was not valid or there was no data provided for it.");
