@@ -1,8 +1,8 @@
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const { MessageEmbed /*, MessageAttachment*/ } = require('discord.js');
 
 const messenger = require('../../local-frameworks/messenger.js');
 
-const request = require('request');
+const { getCallback } = require('../../local-frameworks/request.js');
 
 module.exports = {
     name: "jumbo",
@@ -57,21 +57,20 @@ module.exports = {
         }
 
         // Regex to check if the emoji was request by ID
-        if (args[0].match(/^\d+$/) && args[0].length === 18) {
+        if (args[0].match(/^\d+$/)) {
             let emojiID = args[0];
             // Base embed
             const emojiIDEmbed = new MessageEmbed()
                 .setColor("RANDOM")
                 .setFooter(`Requested by ${message.author.username}#${message.author.discriminator}`)
             // Gets the status so it can accurately determine if it is a gif or png
-            request.get(`https://cdn.discordapp.com/emojis/${emojiID}.gif`, (error, response, body) => {
-                // 200 means it's available as a gif and will therefore retain the URL
-                if (response.statusCode === 200) {
+            getCallback(`https://cdn.discordapp.com/emojis/${emojiID}.gif`, { protocol: 'https' }).then(callback => {
+                if (callback.statusCode === 200) {
                     emojiIDEmbed.setImage(`https://cdn.discordapp.com/emojis/${emojiID}.gif?v=1`);
                     return msgFrame.sendMessageConstr(emojiIDEmbed);
                 }
                 // 415 means it's an unsupported media type and technically doesn't exist so it will change the extension to png
-                if (response.statusCode === 415) {
+                if (callback.statusCode === 415) {
                     emojiIDEmbed.setImage(`https://cdn.discordapp.com/emojis/${emojiID}.png?v=1`);
                     return msgFrame.sendMessageConstr(emojiIDEmbed);
                 }
