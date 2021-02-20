@@ -1,4 +1,4 @@
-const { fetchBI } = require('../../util/getBuildInfo.js');
+const { getBuiInf } = require('../../util/getBuildInfo.js');
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 const messenger = require('../../local-frameworks/messenger.js');
 
@@ -18,7 +18,7 @@ module.exports = {
             releaseC = args[0].toLowerCase();
         }
         function nameAttachments(releaseC) {
-            let attachmentFile = '', attachmentName = '';
+            let attachmentFile, attachmentName;
             let buildClient = '';
             if (releaseC === 'canary') {
                 attachmentFile = 'img/discord_canary_icon1.png';
@@ -45,7 +45,7 @@ module.exports = {
         let attachmentDir = 'attachment://' + attachmentName;
         let attachment = initializeAttachment(attachmentFile, attachmentName);
 
-        await fetchBI(buildClient).then(data => {
+        await getBuiInf(buildClient).then(data => {
             let cli = JSON.parse(JSON.stringify(data));
             msgFrame.sendMessageConstr(getVersionEmbed(client, buildClient, cli.buildNumber, cli.buildHash, cli.buildID, attachment, attachmentDir));
         });
@@ -57,7 +57,7 @@ function initializeAttachment(attachment, name) {
 }
 
 function getVersionEmbed(client, buildClient, buildNumber, buildHash, buildID, attachment, attachmentDir) {
-    const versionEmbed = new MessageEmbed()
+    return new MessageEmbed()
         .setTitle(`Discord ${buildClient} Client - Version and Build Info:`)
         .setColor('#ffee00')
         .attachFiles(attachment)
@@ -67,5 +67,4 @@ function getVersionEmbed(client, buildClient, buildNumber, buildHash, buildID, a
         .addField(`Build ID:`, `\`${buildID}\``)
         .setFooter(`${buildClient} Build Info`, client.user.displayAvatarURL())
         .setTimestamp();
-    return versionEmbed;
 }
