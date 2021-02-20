@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
-const moment = require('moment');
 const messenger = require('../../local-frameworks/messenger.js');
+const [months, days] = [require('../../data/dates.json').months, require('../../data/dates.json').days];
 
 module.exports = {
     name: "serverinfo",
@@ -10,6 +10,14 @@ module.exports = {
     usage: "[command]",
     example: `serverinfo`,
     run: async (client, message, args) => {
+        let millisecondDate = new Date(message.guild.createdTimestamp);
+        let AM_or_PM;
+        if (millisecondDate.getHours() >= 12 && millisecondDate.getHours() < 24) {
+            AM_or_PM = "PM"
+        } else if (millisecondDate.getHours() < 12 && millisecondDate.getHours() > 0) {
+            AM_or_PM = "AM"
+        }
+
         const msgFrame = new messenger({ client: client, listener: message } );
         const filterLevels = {
             DISABLED: 'Off',
@@ -58,7 +66,7 @@ module.exports = {
                 `**Boost Tier:** ${message.guild.premiumTier ? `Tier: ${message.guild.premiumTier}`: 'None'}`,
                 `**Filter Status:** ${filterLevels[message.guild.explicitContentFilter]}`,
                 `**Verification Status:** ${verificationLevels[message.guild.verificationLevel]}`,
-                `**Date Created:** ${moment(message.guild.createdTimestamp).format('LT')} on ${moment(message.guild.createdTimestamp).format('LL')}; ${moment(message.guild.createdTimestamp).fromNow()}`,
+                `**Date Created:** ${Math.abs(millisecondDate.getHours() % 12)}:${millisecondDate.getMinutes()} ${AM_or_PM} on ${months[millisecondDate.getUTCMonth() + 1]} ${millisecondDate.getDate()} (${days[millisecondDate.getDay()]}), ${millisecondDate.getUTCFullYear()}, ${new Date().getUTCFullYear() - millisecondDate.getUTCFullYear()} years ago`,
                 '\u200b'
             ])
             .addField(`Statistics:`, [
