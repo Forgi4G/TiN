@@ -79,11 +79,5 @@ module.exports = {
 
     insertCommaIntoNum: function(args) {
     return args.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-
-    capitalize1stChar: function(str) {
-        return str.replace(/\w\S*/g, function(text) {
-            return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
-        });
     }
 }
