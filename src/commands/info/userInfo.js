@@ -1,9 +1,6 @@
 const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
 const { getMember, formatDate } = require("../../functions.js");
-
-const { standardTimeout } = require("../../functions");
-const t = standardTimeout();
+const { stripES } = require('../../util/parseStrings.js');
 
 const messenger = require('../../local-frameworks/messenger.js');
 
@@ -37,18 +34,18 @@ module.exports = {
                 .setThumbnail(member.user.displayAvatarURL())
                 .setColor(member.displayHexColor === '#000000' ? '#ffffff' : member.displayHexColor)
 
-                .addField('Member information:', stripIndents`**Display name:** ${member.displayName}
+                .addField('Member information:', stripES.call(`**Display name:** ${member.displayName}
                 **Joined at:** ${joined}
-                **Roles:** ${roles}`, true)
+                **Roles:** ${roles}`), true)
 
-                .addField('User information:', stripIndents`**ID:** ${member.user.id}
+                .addField('User information:', stripES.call(`**ID:** ${member.user.id}
                 **Username**: ${member.user.username}
                 **Tag**: ${member.user.tag}
-                **Created at**: ${created}`, true)
+                **Created at**: ${created}`), true)
                 .setTimestamp()
 
             if (member.presence.activity)
-              embed.addField('Currently playing', stripIndents`**> Name:** ${member.presence.activity.name}`);
+              embed.addField('Currently playing', stripES.call(`**> Name:** ${member.presence.activity.name}`));
             msgFrame.sendMessageConstr(embed);
         }
     }
