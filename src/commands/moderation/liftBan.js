@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
+const { stripES } = require('../../util/parseStrings.js');
 
 const { promptMessage, getUserID } = require("../../functions");
 
@@ -57,9 +57,9 @@ module.exports = {
                         .setThumbnail((await client.users.fetch(toLiftBan)).displayAvatarURL())
                         .setFooter(message.member.displayName, message.author.displayAvatarURL())
                         .setTimestamp()
-                        .setDescription(stripIndents`**Lifted Ban for User:** ${((await client.users.fetch(toLiftBan)).username)}#${(await client.users.fetch(toLiftBan)).discriminator} (${toLiftBan})
+                        .setDescription(stripES.call(`**Lifted Ban for User:** ${((await client.users.fetch(toLiftBan)).username)}#${(await client.users.fetch(toLiftBan)).discriminator} (${toLiftBan})
                     **Lifted by:** ${message.member} (${message.member.id})
-                    **Reason:** ${reason}`);
+                    **Reason:** ${reason}`));
 
                     const promptEmbed = new MessageEmbed()
                         .setTitle("Confirmation:")
@@ -77,7 +77,7 @@ module.exports = {
                         // If the ban was approved
                         if (reaction === "✅") {
                             if (messageOne.deletable) { messageOne.delete(); }
-                            await message.guild.members.unban(await client.users.fetch(toLiftBan), reason).then(result => {
+                            await message.guild.members.unban(await client.users.fetch(toLiftBan), reason).then(() => {
                                 return msgFrame.sendTempMessageConstr(banEmbed, 10 * 1000);
                             }).catch(error => {
                                 if (error.code === 50013) {
@@ -113,7 +113,7 @@ module.exports = {
                                                 case 'yes':
                                                     if (messageOne.deletable) { messageOne.delete(); }
                                                     let userToLiftBan = await client.users.fetch(toLiftBan);
-                                                    (message.guild.members.unban(userToLiftBan, reason)).then(result => {
+                                                    (message.guild.members.unban(userToLiftBan, reason)).then(() => {
                                                         return msgFrame.sendTempMessageConstr(banEmbed, 10 * 1000);
                                                     }).catch(error => {
                                                         if (error.code === 50013) {
