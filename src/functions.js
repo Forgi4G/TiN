@@ -77,10 +77,6 @@ module.exports = {
         return String(args).match(/\d+/g).join('') ? String(args).match(/\d+/g).join('') : false;
     },
 
-    sendMessagePermCheck: function(client, message) {
-        return message.guild.me.hasPermission("SEND_MESSAGES");
-    },
-
     insertCommaIntoNum: function(args) {
     return args.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
