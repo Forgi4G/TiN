@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
+const { stripES } = require("../../util/parseStrings.js");
 const messenger = require('../../local-frameworks/messenger.js');
 const prefix = JSON.parse(JSON.stringify((require("../../configuration.json"))))['PREFIX'];
 
@@ -45,8 +45,8 @@ module.exports = {
         }
 
         const info = client.categories
-            .map(category => stripIndents`**${category}** \n${commands(category.toLowerCase())}`)
-            //.map(category => stripIndents`**${category[0].toUpperCase() + category.slice(1)}** \n${commands(category)}`)
+            .map(category => stripES.call(`**${category}** \n${commands(category.toLowerCase())}`))
+            //.map(category => stripES.call(`**${category[0].toUpperCase() + category.slice(1)}** \n${commands(category)}`))
             .reduce((string, category) => string + "\n" + category);
 
 
