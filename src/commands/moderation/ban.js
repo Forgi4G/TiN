@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
+const { stripES } = require('../../util/parseStrings.js');
 
 const { promptMessage, getUserID } = require("../../functions");
 
@@ -57,9 +57,9 @@ module.exports = {
                         .setThumbnail((await client.users.fetch(toBan)).displayAvatarURL())
                         .setFooter(message.member.displayName, message.author.displayAvatarURL())
                         .setTimestamp()
-                        .setDescription(stripIndents`**User banned:** ${((await client.users.fetch(toBan)).username)}#${(await client.users.fetch(toBan)).discriminator} (${toBan})
+                        .setDescription(stripES.call(`**User banned:** ${((await client.users.fetch(toBan)).username)}#${(await client.users.fetch(toBan)).discriminator} (${toBan})
                     **Banned by:** ${message.member} (${message.member.id})
-                    **Reason:** ${reason}`);
+                    **Reason:** ${reason}`));
 
                     const promptEmbed = new MessageEmbed()
                         .setTitle("Confirmation:")
