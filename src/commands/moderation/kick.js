@@ -1,6 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { stripIndents } = require("common-tags");
-const fs = require('fs');
+const { stripES } = require('../../util/parseStrings.js');
 
 const { promptMessage, getUserID } = require("../../functions");
 
@@ -59,9 +58,9 @@ module.exports = {
                         .setThumbnail((await client.users.fetch(toKick)).displayAvatarURL())
                         .setFooter(message.member.displayName, message.author.displayAvatarURL())
                         .setTimestamp()
-                        .setDescription(stripIndents`**User Kicked:** ${((await client.users.fetch(toKick)).username)}#${(await client.users.fetch(toKick)).discriminator} (${toKick})
+                        .setDescription(stripES.call(`**User Kicked:** ${((await client.users.fetch(toKick)).username)}#${(await client.users.fetch(toKick)).discriminator} (${toKick})
                     **Kicked by:** ${message.member} (${message.member.id})
-                    **Reason:** ${reason}`);
+                    **Reason:** ${reason}`));
 
                     const promptEmbed = new MessageEmbed()
                         .setTitle("Confirmation:")
@@ -77,7 +76,7 @@ module.exports = {
                         const reaction = await promptMessage(messageOne, message.author, time, validReactions);
 
                         // Defining the user to kick
-                        let userToKick = await client.users.fetch(toKick);
+                        //let userToKick = await client.users.fetch(toKick);
 
                         // If the kick was approved
                         if (reaction === "✅") {
@@ -90,7 +89,7 @@ module.exports = {
                                 });
                             if (guildMember) {
                                 guildMember.kick(reason)
-                                    .then(result => {
+                                    .then(() => {
                                         return msgFrame.sendMessageConstr(kickEmbed);
                                     })
                                     .catch(error => {
@@ -137,7 +136,7 @@ module.exports = {
                                                         });
                                                     if (theGuildMember) {
                                                         theGuildMember.kick(reason)
-                                                            .then(result => {
+                                                            .then(() => {
                                                                 return msgFrame.sendMessageConstr(kickEmbed);
                                                             })
                                                             .catch(error => {
