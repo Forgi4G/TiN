@@ -1,5 +1,5 @@
 const messenger = require('../../local-frameworks/messenger.js');
-const { getUserID } = require('../../functions.js');
+const { getUserID } = require('../../util/functions.js');
 
 module.exports = {
     name: "purge",

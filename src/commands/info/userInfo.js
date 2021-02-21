@@ -1,5 +1,5 @@
 const { MessageEmbed } = require("discord.js");
-const { getMember, formatDate } = require("../../functions.js");
+const { getMember, formatDate } = require("../../util/functions.js");
 const { stripES } = require('../../util/parseStrings.js');
 
 const messenger = require('../../local-frameworks/messenger.js');

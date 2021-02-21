@@ -18,7 +18,14 @@ module.exports = {
             AM_or_PM = "AM"
         }
 
-        const msgFrame = new messenger({ client: client, listener: message } );
+        let minutes;
+        if (Math.abs(millisecondDate.getMinutes()) < 10) {
+            minutes = "0" + String(millisecondDate.getMinutes());
+        } else {
+            minutes = Math.abs(millisecondDate.getMinutes());
+        }
+
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args } );
         const filterLevels = {
             DISABLED: 'Off',
             MEMBERS_WITHOUT_ROLES: 'Members with no role',
@@ -66,7 +73,7 @@ module.exports = {
                 `**Boost Tier:** ${message.guild.premiumTier ? `Tier: ${message.guild.premiumTier}`: 'None'}`,
                 `**Filter Status:** ${filterLevels[message.guild.explicitContentFilter]}`,
                 `**Verification Status:** ${verificationLevels[message.guild.verificationLevel]}`,
-                `**Date Created:** ${Math.abs(millisecondDate.getHours() % 12)}:${millisecondDate.getMinutes()} ${AM_or_PM} on ${months[millisecondDate.getUTCMonth() + 1]} ${millisecondDate.getDate()} (${days[millisecondDate.getDay()]}), ${millisecondDate.getUTCFullYear()}, ${new Date().getUTCFullYear() - millisecondDate.getUTCFullYear()} years ago`,
+                `**Date Created:** ${Math.abs(millisecondDate.getHours() % 12)}:${minutes} ${AM_or_PM} on ${months[millisecondDate.getUTCMonth() + 1]} ${millisecondDate.getDate()} (${days[millisecondDate.getDay()]}), ${millisecondDate.getUTCFullYear()}, ${new Date().getUTCFullYear() - millisecondDate.getUTCFullYear()} years ago`,
                 '\u200b'
             ])
             .addField(`Statistics:`, [

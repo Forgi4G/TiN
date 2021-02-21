@@ -1,5 +1,5 @@
 // Use async for new event handler
-const { insertCommaIntoNum } = require('../../functions.js');
+const { insertCommaIntoNum } = require('../../util/functions.js');
 const configuration = JSON.parse(JSON.stringify((require("../../configuration.json"))));
 
 module.exports = {
