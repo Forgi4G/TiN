@@ -1,12 +1,10 @@
-const { MessageEmbed } = require('discord.js');
-
 const messenger = require('../../local-frameworks/messenger.js');
 
 module.exports = {
     name: "rename",
     category: "guild",
     aliases: ["relabel"],
-    description: "Command that consists of subcommands that lets you rename the server and/or the channel you executed the command in.",
+    description: "Command that consists of sub-commands that lets you rename the server and/or the channel you executed the command in.",
     usage: "[command] [type] [args]",
     example: `rename server New Name`,
     run: async (client, message, args) => {
