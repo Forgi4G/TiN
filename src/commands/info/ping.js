@@ -1,4 +1,5 @@
 const messenger = require('../../local-frameworks/messenger.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "ping",
@@ -8,8 +9,11 @@ module.exports = {
     usage: "[command]",
     example: `ping`,
     run: async (client, message, args) => {
-        const msgFrame = new messenger({ client: client, listener: message } );
-        const m = await msgFrame.sendMessageConstr("Getting ping.");
-        await m.edit(`Latency: ${Math.floor(m.createdAt - message.createdAt)}ms\nAPI Latency: ${Math.round(client.ws.ping)}ms`);
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args } );
+        let pingEmbed = new MessageEmbed()
+            .setColor("BLURPLE")
+            .addField(`Latency`, `${Date.now() - message.createdTimestamp}ms`, true)
+            .addField(`API Latency`, `${Math.round(client.ws.ping)}ms`, true);
+        return msgFrame.sendMessageConstr(pingEmbed);
     }
 }
