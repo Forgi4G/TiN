@@ -74,7 +74,7 @@ module.exports = {
     },
 
     getUserID(args) {
-        return String(args).match(/\d+/g).join('') ? String(args).match(/\d+/g).join('') : false;
+        return String(args).match(/\d+/g) ? String(args).match(/\d+/g).join('') : false;
     },
 
     insertCommaIntoNum: function(args) {
