@@ -16,7 +16,6 @@ module.exports = {
     run: async (client, message, args) => {
         const msgFrame = new messenger({ listener: message });
         let member = getMember(message, args.join(' '));
-
         if (args[0] && args[1]) {
             message.deletable ? message.delete() : null;
             if (args[0].toLowerCase() === "delete" && args[1]) {
@@ -49,14 +48,13 @@ module.exports = {
             }
         }
 
-        if ((await getUser(getUserID(args[0]))).code) {
+        if ((await getUser(getUserID(args[0] || member.user.id))).code && !args.slice(1)) {
             return msgFrame.sendTempDefaultMessageConstr(`That is not a valid user.`);
         }
 
         let userID;
-        if (!member && (await getUser(getUserID(args[0]))).code !== 10013) userID = getUserID(args[0]);
+        if (!member && (await getUser(getUserID(args[0] || member.user.id))).code !== 10013) userID = getUserID(args[0]);
         else if (!member && (await getUser(getUserID(args[0]))).code === 10013) {
-            userID = false;
             return msgFrame.sendTempDefaultMessageConstr(`That is not a valid user.`);
         }
 
@@ -78,12 +76,13 @@ module.exports = {
 
             let getCreatedDate = getDate(member.user.createdAt);
             let createdTime = `${Math.abs(getCreatedDate.hours % 12)}:${getCreatedDate.minutes} ${getCreatedDate.AM_or_PM}`;
+
             userInfoEmbed
                 .setThumbnail(member.user.displayAvatarURL())
+                .setColor(member.roles.member.guild.roles.cache.map(i => i.color)[1] ? member.roles.member.guild.roles.cache.map(i => i.color)[1] : member.roles.member.guild.roles.cache.map(i => i.color)[0])
                 .addField(`Username`, stripES.call(`${member.user.username}#${member.user.discriminator}`), true)
                 .addField(`ID`, stripES.call(`${member.user.id}`), true)
                 .addField(`Mention`, `<@${member.user.id}>`, true)
-                .setColor(member.user.displayHexColor === '#000000' ? '#ffffff' : member.user.displayHexColor)
                 .addField(`Account Creation Date`, `${created}\nat ${createdTime}`, true)
                 .addField(`Join Date`, `${joined}\nat ${joinTime}`, true)
                 .addField(`Nickname`, stripES.call(`${member.displayName === member.user.username ? "None" : member.displayName}`), true)
@@ -106,16 +105,16 @@ module.exports = {
             // Get dates and user
             let user = client.users.fetch(userID);
 
-            let creationDate = formatDate(user.createdAt);
+            let creationDate = formatDate((await user).createdAt);
             let createdDate = getDate((await user).createdAt);
             let createdTime = `${Math.abs(createdDate.hours % 12)}:${createdDate.minutes} ${createdDate.AM_or_PM}`;
 
             userInfoEmbed
                 .setThumbnail((await user).displayAvatarURL())
+                .setColor((await user).id.substring(0, 6))
                 .addField(`Username`, stripES.call(`${(await user).username}#${(await user).discriminator}`), true)
                 .addField(`ID`, stripES.call(`${(await user).id}`), true)
                 .addField(`Mention`, `<@${(await user).id}>`, true)
-                .setColor('#000000')
                 .addField(`Account Creation Date`, `${creationDate}\nat ${createdTime}`, true)
                 .addField(`Nickname`, `None`, true)
                 .addField(`Note`, `User is not in this server`, true)
