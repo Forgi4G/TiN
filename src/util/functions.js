@@ -1,5 +1,5 @@
 module.exports = {
-    getMember: function(message, toFind= '') {
+    getMember: function(message, toFind= '', options = {}) {
         toFind = toFind.toLowerCase();
         try {
             let target = message.guild.members.cache.get(toFind);
@@ -15,6 +15,10 @@ module.exports = {
                 }).catch(error => {
                     return error;
                 });
+            }
+
+            if (options.args && !target) {
+                return message.guild.users.users.cache.find(user => user.username.toLowerCase() === args.slice(0).join(" "));
             }
 
             if (!target) {
