@@ -10,7 +10,7 @@ module.exports = {
     usage: '[command]',
     example: `about`,
     run: (client, message, args) => {
-        const msgFrame = new messenger({ client: client, listener: message } );
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args } );
         const embed = new MessageEmbed()
             .setColor('#0099ff')
             .setTitle(configuration["APP_NAME"] + " - " + "General")
