@@ -8,7 +8,7 @@ module.exports = {
     usage: "[command]",
     example: `count`,
     run: async (client, message, args) => {
-        const msgFrame = new messenger({ listener: message });
+        const msgFrame = new messenger({ listener: message, throwaway: args });
         msgFrame.sendMessageConstr(`${message.guild.name} has \`${message.guild.memberCount}\` members.`);
     }
 }

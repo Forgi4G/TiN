@@ -10,7 +10,7 @@ module.exports = {
     usage: "[command]",
     example: `version`,
     run: async (client, message, args) => {
-        const msgFrame = new messenger({ client: client, listener: message });
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args });
         const versionEmbed = new MessageEmbed()
             .setThumbnail(client.user.displayAvatarURL())
             .setTitle(`Version Info - ${configuration['VERSION']}`)
