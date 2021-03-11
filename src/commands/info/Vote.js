@@ -10,7 +10,7 @@ module.exports = {
     usage: "[command]",
     example: `vote`,
     run: async (client, message, args) => {
-        const msgFrame = new messenger({ client: client, listener: message });
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args });
         const voteEmbed = new MessageEmbed()
             .setColor("#7289DA")
             .setDescription(`You can vote for ${APP_NAME} at:\n[Vote 1](https://top.gg/bot/483768001024491521/vote)\n[Vote 2](https://discordbotlist.com/bots/tin/upvote)`);
