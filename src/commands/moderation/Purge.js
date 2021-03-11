@@ -1,5 +1,6 @@
 const messenger = require('../../local-frameworks/messenger.js');
 const { getUserID } = require('../../util/functions.js');
+const https = require('https');
 
 module.exports = {
     name: "purge",
@@ -77,12 +78,15 @@ module.exports = {
                     return msgFrame.sendTempDefaultMessageChannelConstr("That is not a number or nothing was provided (or I cannot delete 0 messages).");
                 }
 
-                return channel.bulkDelete(numMessages, true)
+                return channel.bulkDelete(numMessages, true).catch(() => {})
                     .then(async afterDeletion => {
-                        return msgFrame.sendTempDefaultMessageChannelConstr(`\`${afterDeletion.size}\` messages have been deleted.`);
+                        if (afterDeletion)
+                            if (!(await getMessage(message.channel.id, message.id)).code && (await getMessage(message.channel.id, message.id)).code !== 10008) {
+                                return msgFrame.sendTempMessageDefaultInst(message, `\`${afterDeletion.size}\` messages have been deleted.`);
+                            }
                     })
                     .catch(error => {
-                        if (String(error.code) === "10008") return {};
+                        if (error && error.code === "10008") return {};
                         else msgFrame.sendTempDefaultMessageChannelConstr(`Something went wrong: \`${error.code}\``);
                     });
             }
@@ -93,3 +97,33 @@ module.exports = {
         }
     }
 }
+
+async function getMessage(channelID, messageID) {
+    let reqOpts = {
+        hostname: "canary.discord.com",
+        path: `/api/v8/channels/${channelID}/messages/${messageID}`,
+        headers: {
+            Authorization: `Bot ${process.env.TOKEN}`
+        },
+        method: "GET"
+    }
+
+    return new Promise((resolve, reject) => {
+        (require('https')).get(reqOpts, callback => {
+            let body = "";
+            callback.on("data", chunk => body += chunk);
+            callback.on("end", () => {
+                try {
+                    let endpointData = JSON.parse(body);
+                    resolve(endpointData);
+                } catch (e) {
+                    let error = {
+                        error: e
+                    }
+                    reject(error);
+                }
+            });
+        });
+    });
+}
+//
