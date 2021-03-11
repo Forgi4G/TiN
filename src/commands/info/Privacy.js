@@ -10,7 +10,7 @@ module.exports = {
     usage: "[command]",
     example: `privacy`,
     run: (client, message, args) => {
-        const msgFrame = new messenger({ client: client, listener: message } );
+        const msgFrame = new messenger({ client: client, listener: message, throwaway: args } );
         const embed = new MessageEmbed()
             .setColor('#8800ff')
             .setTitle(`${APP_NAME}'s Privacy Policy`)
