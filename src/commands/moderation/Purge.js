@@ -81,7 +81,7 @@ module.exports = {
                 return channel.bulkDelete(numMessages, true).catch(() => {})
                     .then(async afterDeletion => {
                         if (afterDeletion)
-                            if (!(await getMessage(message.channel.id, message.id)).code) {
+                            if (!(await getMessage(message.channel.id, message.id)).code && (await getMessage(message.channel.id, message.id)).code !== 10008) {
                                 return msgFrame.sendTempMessageDefaultInst(message, `\`${afterDeletion.size}\` messages have been deleted.`);
                             }
                     })
