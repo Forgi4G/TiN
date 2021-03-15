@@ -40,9 +40,9 @@ module.exports = {
             }
         }
         try {
-            if(/<:a.+:(\d+)>/.exec(message.content)[1].match(/^\d+$/)) {
-                let emojiContent = /<:.+:(\d+)>/.exec(message.content);
-                let emojiID = emojiContent[1];
+            if (/<a:.+?:\d+>/.exec(message.content)[0].match(/\d+/g)[0]) {
+                let emojiContent = /<a:.+?:\d+>/.exec(message.content)[0].match(/\d+/g);
+                let emojiID = emojiContent[0];
                 // const attachment = new MessageAttachment(`https://cdn.discordapp.com/emojis/`+emojiID+`.gif?v=1`);
                 const emoji_A_Embed = new MessageEmbed()
                     .setColor("RANDOM")
