@@ -1,10 +1,12 @@
-const prefix = JSON.parse(JSON.stringify((require("../../configuration.json"))))['PREFIX'];
+const { Collection } = require('discord.js');
+const prefix = JSON.parse(JSON.stringify((require("../../configuration.json"))))['TEST_PREFIX'];
 
 module.exports = {
     name: "message",
     on: true,
     run: client => {
         client.on("message", message => {
+
             // Checks types
             if (message.author.bot) return;
             if (!message.guild) return;
@@ -27,7 +29,29 @@ module.exports = {
 
             // Runs if commands exists
             if (command) {
-                command.run(client, message, args);
+                const { cooldowns } = client;
+                !cooldowns.has(command.name) ? cooldowns.set(command.name, new Collection()) : {};
+
+                const now = Date.now();
+                const timestamps = cooldowns.get(command.name);
+                //tim.set(message.author.id, now);
+                const cooldown_amount = (command.cooldown || 3) * 1000;
+
+                if (timestamps.has(message.author.id)) {
+                    const exp = timestamps.get(message.author.id) + cooldown_amount;
+
+                    if (now < exp) {
+                        const time_left = (exp - now) / 1000;
+                        return message.channel.send(`Please wait ${time_left.toFixed(1)} more seconds before using \`${command.name}\` again.`)
+                            .catch(() => {})
+                            .then(m => { if (m) m.delete({ timeout: 5000 }) });
+                    }
+                } else {
+                    command.run(client, message, args);
+                }
+                timestamps.set(message.author.id, now);
+                setTimeout(() => timestamps.delete(message.author.id), cooldown_amount);
+
             }
         });
     }
