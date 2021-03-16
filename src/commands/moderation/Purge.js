@@ -7,6 +7,7 @@ module.exports = {
     aliases: ["clear", "clearchat", "massdelete", "p", "bulkdelete"],
     category: "moderation",
     description: "Clears/Purges the chat, can only bulk delete messages under 14 days old.",
+    cooldown: 5,
     usage: "[command] [messageCount], [command] [user] [user mention / id] [messageCount]",
     example: `purge 100`,
     run: async (client, message, args) => {
@@ -109,7 +110,7 @@ async function getMessage(channelID, messageID) {
     }
 
     return new Promise((resolve, reject) => {
-        (require('https')).get(reqOpts, callback => {
+        https.get(reqOpts, callback => {
             let body = "";
             callback.on("data", chunk => body += chunk);
             callback.on("end", () => {

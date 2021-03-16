@@ -8,6 +8,7 @@ module.exports = {
     aliases: ["h"],
     category: "info",
     description: "Returns all commands, or info for one specific command.",
+    cooldown: 3,
     usage: "[command] (commandName)",
     example: `help`,
     run: async (client, message, args) => {
