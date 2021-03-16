@@ -32,7 +32,6 @@ module.exports = {
                             let msgAmount;
 
                             if (isNaN(args[2]) || parseInt(args[2]) <= 0) {
-                                console.log(isNaN(args[2]) || parseInt(args[2]) <= 0);
                                 return msgFrame.sendTempDefaultMessageChannelConstr("That is not a number or nothing was provided (or I cannot delete 0 messages).");
                             }
 
@@ -51,7 +50,11 @@ module.exports = {
                                         let msgToPurge = messages.filter(m => m.author.id === filterBy).array().slice(0, msgAmount);
                                         return channel.bulkDelete(msgToPurge, true)
                                             .then(async afterDeletion => {
-                                                return msgFrame.sendTempDefaultMessageChannelConstr(`\`${afterDeletion.size}\` messages have been deleted.`);
+                                                try {
+                                                    return msgFrame.sendTempDefaultMessageChannelConstr(`\`${afterDeletion.size}\` messages have been deleted.`);
+                                                } catch(e) {
+                                                    return {};
+                                                }
                                             })
                                             .catch(error => {
                                                 if (String(error.code) === "10008") return {};
@@ -82,9 +85,13 @@ module.exports = {
                 return channel.bulkDelete(numMessages, true).catch(() => {})
                     .then(async afterDeletion => {
                         if (afterDeletion)
-                            if (!(await getMessage(message.channel.id, message.id)).code && (await getMessage(message.channel.id, message.id)).code !== 10008) {
+                            //if (!(await getMessage(message.channel.id, message.id)).code && (await getMessage(message.channel.id, message.id)).code !== 10008) {
+                            try {
                                 return msgFrame.sendTempMessageDefaultInst(message, `\`${afterDeletion.size}\` messages have been deleted.`);
+                            } catch (e) {
+                                return {};
                             }
+                            //}
                     })
                     .catch(error => {
                         if (error && error.code === "10008") return {};
