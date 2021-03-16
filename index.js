@@ -7,6 +7,7 @@ require('dotenv').config()
 // Using the Collection from the library
 client.commands = new Collection();
 client.aliases = new Collection();
+client.cooldowns = new Collection();
 client.categories = fs.readdirSync(`./src/commands`);
 client.events = new Collection();
 
