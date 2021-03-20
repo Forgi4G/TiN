@@ -51,7 +51,7 @@ module.exports = {
                                         return channel.bulkDelete(msgToPurge, true)
                                             .then(async afterDeletion => {
                                                 try {
-                                                    return msgFrame.sendTempDefaultMessageChannelConstr(`\`${afterDeletion.size}\` messages have been deleted.`);
+                                                    return msgFrame.sendTempMessageConstr(`\`${afterDeletion.size}\` messages have been deleted.`, 3000);
                                                 } catch(e) {
                                                     return {};
                                                 }
@@ -87,7 +87,7 @@ module.exports = {
                         if (afterDeletion)
                             //if (!(await getMessage(message.channel.id, message.id)).code && (await getMessage(message.channel.id, message.id)).code !== 10008) {
                             try {
-                                return msgFrame.sendTempMessageDefaultInst(message, `\`${afterDeletion.size}\` messages have been deleted.`);
+                                return msgFrame.sendTempMessageConstr(`\`${afterDeletion.size}\` messages have been deleted.`, 3000);
                             } catch (e) {
                                 return {};
                             }
@@ -134,4 +134,3 @@ async function getMessage(channelID, messageID) {
         });
     });
 }
-//
