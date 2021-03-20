@@ -44,7 +44,7 @@ module.exports = {
                         const time_left = (exp - now) / 1000;
                         return message.channel.send(`Please wait ${time_left.toFixed(1)} more seconds before using \`${command.name}\` again.`)
                             .catch(() => {})
-                            .then(m => { if (m) m.delete({ timeout: 5000 }) });
+                            .then(m => { if (m) m.delete({ timeout: 2000 }) });
                     }
                 } else {
                     command.run(client, message, args);
