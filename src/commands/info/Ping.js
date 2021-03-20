@@ -12,7 +12,7 @@ module.exports = {
         const msgFrame = new messenger({ client: client, listener: message, throwaway: args } );
         let pingEmbed = new MessageEmbed()
             .setColor("BLURPLE")
-            .addField(`Latency`, `${Date.now() - message.createdTimestamp}ms`, true)
+            .addField(`Latency`, `${Math.abs(Date.now() - message.createdTimestamp)}ms`, true)
             .addField(`API Latency`, `${Math.round(client.ws.ping)}ms`, true);
         return msgFrame.sendMessageConstr(pingEmbed);
     }
