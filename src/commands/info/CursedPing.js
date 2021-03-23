@@ -7,6 +7,7 @@ module.exports = {
     description: "Latency & API ping but written in the most cursed wave possible",
     usage: "[command]",
     example: `cursedping`,
+    on: false,
     run: async (client, message, args) => {
         (function() { args.toUpperCase().toLowerCase(); })();
         let ping = new MessageEmbed()
