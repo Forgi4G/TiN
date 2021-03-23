@@ -9,11 +9,13 @@ module.exports = (client) => {
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
 
-            if (pull.name) {
+            pull.on = pull.on === undefined;
+
+            if (pull.name && pull.on === true) {
                 client.commands.set(pull.name, pull);
                 table.addRow(file, 'Approved');
             } else {
-                table.addRow(file, 'Denied; missing');
+                table.addRow(file, 'Denied / Missing');
                 continue;
             }
 
