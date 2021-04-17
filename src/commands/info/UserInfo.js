@@ -78,7 +78,7 @@ module.exports = {
             let createdTime = `${Math.abs(getCreatedDate.hours % 12)}:${getCreatedDate.minutes} ${getCreatedDate.AM_or_PM}`;
 
             userInfoEmbed
-                .setThumbnail(member.user.displayAvatarURL())
+                .setThumbnail(`${member.user.displayAvatarURL()}?size=1024`)
                 .setColor(member.roles.member.guild.roles.cache.map(i => i.color)[1] ? member.roles.member.guild.roles.cache.map(i => i.color)[1] : member.roles.member.guild.roles.cache.map(i => i.color)[0])
                 .addField(`Username`, stripES.call(`${member.user.username}#${member.user.discriminator}`), true)
                 .addField(`ID`, stripES.call(`${member.user.id}`), true)
@@ -110,7 +110,7 @@ module.exports = {
             let createdTime = `${Math.abs(createdDate.hours % 12)}:${createdDate.minutes} ${createdDate.AM_or_PM}`;
 
             userInfoEmbed
-                .setThumbnail((await user).displayAvatarURL())
+                .setThumbnail(`${(await user).displayAvatarURL()}?size=1024`)
                 .setColor((await user).id.substring(0, 6))
                 .addField(`Username`, stripES.call(`${(await user).username}#${(await user).discriminator}`), true)
                 .addField(`ID`, stripES.call(`${(await user).id}`), true)
