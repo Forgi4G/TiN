@@ -53,7 +53,7 @@ module.exports = {
         }
 
         let userID;
-        if (!member && (await getUser(getUserID(args[0] || member.user.id))).code !== 10013) userID = getUserID(args[0]);
+        if (!member && (await getUser(getUserID(args[0] || member.user.id))).code !== 10013 && (await getUser(getUserID(args[0] || member.user.id))).code !== 50035) userID = getUserID(args[0]);
         else if (!member && (await getUser(getUserID(args[0]))).code === 10013) {
             return msgFrame.sendTempDefaultMessageConstr(`That is not a valid user.`);
         }
