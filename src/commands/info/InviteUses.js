@@ -1,5 +1,4 @@
 const messenger = require('../../local-frameworks/messenger.js');
-const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: "inviteuses",
